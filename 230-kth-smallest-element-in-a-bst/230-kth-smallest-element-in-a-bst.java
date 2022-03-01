@@ -26,7 +26,10 @@ class Solution {
     void helper(TreeNode root){
         if(root == null) return;
         helper(root.left);
-        if(--count == 0) val = root.val;
+        if(--count == 0) {
+            val = root.val;
+            return;
+        }
         helper(root.right);
     }
 }
