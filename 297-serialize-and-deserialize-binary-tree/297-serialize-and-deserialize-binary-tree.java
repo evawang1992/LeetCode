@@ -26,8 +26,8 @@ public class Codec {
     }
     
     TreeNode deserializeQueue(Queue<String> q){
-        
-            String s = q.poll();
+        if(q.isEmpty()) return null;
+        String s = q.poll();
         if(s.equals("#")) return null;
         TreeNode root = new TreeNode(Integer.valueOf(s));
         root.left = deserializeQueue(q);
