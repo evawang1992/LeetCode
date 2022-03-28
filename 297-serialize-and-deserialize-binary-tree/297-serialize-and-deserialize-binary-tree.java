@@ -11,29 +11,29 @@ public class Codec {
 
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
-        if(root == null) return "#,";
-        String l = serialize(root.left);
-        String r = serialize(root.right);
-        String s = root.val+",";
-        return s+l+r;
+        if(root == null) return "X,";
+        String cur = ""+root.val;
+        return cur + "," + serialize(root.left) + serialize(root.right);
     }
 
     // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        Queue<String> q= new LinkedList<>();
-        q.addAll(Arrays.asList(data.split(",")));
-        return deserializeQueue(q);
+        String[] strArr = data.split(",");
+        Queue<String> q = new LinkedList<>();
+        for(String s : strArr){
+            q.offer(s);
+        }
+        return dfs(q);
+        
     }
-    
-    TreeNode deserializeQueue(Queue<String> q){
+    TreeNode dfs(Queue<String> q){
         if(q.isEmpty()) return null;
         String s = q.poll();
-        if(s.equals("#")) return null;
-        TreeNode root = new TreeNode(Integer.valueOf(s));
-        root.left = deserializeQueue(q);
-        root.right = deserializeQueue(q);
-        return root;
-        
+        if(s.equals("X")) return null;
+        TreeNode newNode = new TreeNode(Integer.valueOf(s));
+        newNode.left = dfs(q);
+        newNode.right = dfs(q);
+        return newNode;
     }
 }
 
