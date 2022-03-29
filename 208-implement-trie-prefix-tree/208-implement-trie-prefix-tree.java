@@ -1,35 +1,39 @@
 class Trie {
 class TrieNode{
     TrieNode[] children = new TrieNode[26];
-        String word = null;
+    String word = null;
 }
+    TrieNode root;
     public Trie() {
-        
+        root = new TrieNode();
     }
-    TrieNode root = new TrieNode();
+    
     public void insert(String word) {
-        TrieNode travsor = root;
+        if(word.isEmpty()) return;
+        TrieNode n = root;
         for(char c : word.toCharArray()){
-            if(travsor.children[c-'a']==null) travsor.children[c-'a'] = new TrieNode();
-            travsor = travsor.children[c-'a'];
+            if(n.children[c-'a'] == null) n.children[c-'a'] = new TrieNode();
+            n = n.children[c-'a'];
         }
-        travsor.word = word;
+        n.word = word;
     }
     
     public boolean search(String word) {
-        TrieNode travsor = root;
+        if(word == null) return false;
+        TrieNode n = root;
         for(char c : word.toCharArray()){
-            if(travsor.children[c-'a']==null) return false;
-            travsor = travsor.children[c-'a'];
+            if(n.children[c-'a'] == null) return false;
+            n = n.children[c-'a'];
         }
-        return travsor.word != null && travsor.word.equals(word);
+        return n.word != null && n.word.equals(word);
     }
     
     public boolean startsWith(String prefix) {
-        TrieNode travsor = root;
+        if(prefix == null) return false;
+        TrieNode n = root;
         for(char c : prefix.toCharArray()){
-            if(travsor.children[c-'a']==null) return false;
-            travsor = travsor.children[c-'a'];
+            if(n.children[c-'a'] == null) return false;
+            n = n.children[c-'a'];
         }
         return true;
     }
