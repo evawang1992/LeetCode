@@ -23,7 +23,6 @@ class Solution {
                         q.offer(nn);
                         visited.add(nn);
                         }
-                    
                 }
             }
             step++;
@@ -31,7 +30,7 @@ class Solution {
         return -1;
     }
     int getP(int num, int n, int[][] board){
-       int row =  n- (num-1)/n-1, col = ((n+row) % 2) == 1?(num-1)%n:n-(num-1)%n-1;
+       int row =  n- (num-1)/n-1, col = ((num-1)/n % 2) == 0?(num-1)%n:n-(num-1)%n-1;
         return board[row][col];
     }
 }
