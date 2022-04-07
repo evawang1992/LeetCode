@@ -15,38 +15,41 @@
  */
 class Solution {
     public List<Integer> boundaryOfBinaryTree(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null) return res;
+        res.add(root.val);
+        lefttree(root.left, res);
+        leaves(root.left, res);
+        leaves(root.right, res);
+        righttree(root.right, res);
         
-        List<Integer> nodes = new ArrayList<>();
-        if(root == null) return nodes;
-        nodes.add(root.val);
-        leftBoundary(nodes, root.left);
-        addLeaves(nodes, root.left);
-        addLeaves(nodes, root.right);
-        rightBoundary(nodes, root.right);
-
-        return nodes;
+        return res;
     }
-    void leftBoundary(List<Integer> list, TreeNode root){
+    void lefttree(TreeNode root, List<Integer> res){
         if(root == null || (root.left == null && root.right == null)) return;
-        list.add(root.val);
-        if(root.left == null) leftBoundary(list, root.right);
-        else leftBoundary(list, root.left);
-        
+        res.add(root.val);
+        if(root.left == null){
+            lefttree(root.right, res); 
+        }
+        else lefttree(root.left, res);
     }
-        void rightBoundary(List<Integer> list, TreeNode root){
+        void righttree(TreeNode root, List<Integer> res){
         if(root == null || (root.left == null && root.right == null)) return;
         
-        if(root.right == null) rightBoundary(list, root.left);
-        else rightBoundary(list, root.right);
-        list.add(root.val);
-    }
-    void addLeaves(List<Integer> list, TreeNode root){
+        if(root.right == null){
+            righttree(root.left, res); 
+        }
+        else righttree(root.right, res);
+    res.add(root.val);
+        }
+    void leaves(TreeNode root, List<Integer> res){
         if(root == null) return;
         if(root.left == null && root.right == null) {
-            list.add(root.val);
+            res.add(root.val);
             return;
         }
-        addLeaves(list, root.left);
-        addLeaves(list, root.right);
+        leaves(root.left, res);
+        leaves(root.right, res);
+        
     }
 }
