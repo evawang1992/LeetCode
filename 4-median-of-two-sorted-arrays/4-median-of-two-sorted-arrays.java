@@ -1,34 +1,32 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int n = nums1.length, m = nums2.length;
-int imin = 0, imax = n, halfLength = (m + n + 1) / 2;
-        double leftmax = 0; double rightmin = 0;
-        if(n > m) return findMedianSortedArrays(nums2, nums1);
-        int i = 0, j = 0;
-        while(imin <= imax){
-            i = (imin + imax) / 2;
-            j = halfLength - i;
-            if(i < n && j > 0 && nums2[j-1] > nums1[i]){
-                imin = i + 1;
+        int m = nums1.length, n = nums2.length;
+        if(m > n) return findMedianSortedArrays(nums2, nums1);
+        int half = (m+n+1)/2;
+        int left = 0, right = m;
+        double leftmax= 0, rightmin = nums2[n-1];
+        int mid = (left+right)/2;
+            int nmid= half - mid;
+        while(left <= right){
+             mid = (left+right)/2;
+             nmid= half - mid;
+            if(mid > 0 && nmid < n && nums1[mid-1] > nums2[nmid]){
+                right = mid-1;
             }
-            else if(i > 0 && j < m &&  nums1[i - 1] > nums2[j]){
-                imax = i - 1;
+            else if(nmid > 0 && mid < m && nums1[mid] < nums2[nmid -1]){
+                left = mid+1;
             }
-
-            else{
-                
-                if(i == 0) leftmax = nums2[j-1];
-                else if(j == 0) leftmax = nums1[i-1];
-                else leftmax = Math.max(nums1[i-1], nums2[j-1]);
-                if((n+m)%2 == 1) return leftmax;
-                
+            else {
+                if(mid == 0) leftmax = nums2[nmid-1];
+                else if(nmid == 0) leftmax = nums1[mid-1];
+                else leftmax = Math.max(nums1[mid-1],nums2[nmid-1]);
+                if((m+n)%2 == 1) return leftmax;
                 break;
             }
         }
-        
-        if(i == n) rightmin = nums2[j];
-        else if(j == m) rightmin = nums1[i];
-        else rightmin = Math.min(nums1[i], nums2[j]);
-        return (rightmin + leftmax) / 2;
+        if(mid == m)rightmin = nums2[nmid];
+        else if (nmid == n) rightmin = nums1[mid];
+        else rightmin = Math.min(nums1[mid], nums2[nmid]);
+        return (leftmax+rightmin)/2;
     }
 }
