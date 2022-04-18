@@ -23,23 +23,23 @@
  *     }
  * }
  */
-public class Solution {
-public TreeNode sortedListToBST(ListNode head) {
-    if(head==null) return null;
-    return toBST(head,null);
-}
-public TreeNode toBST(ListNode head, ListNode tail){
-    ListNode slow = head;
-    ListNode fast = head;
-    if(head==tail) return null;
-    
-    while(fast!=tail&&fast.next!=tail){
-        fast = fast.next.next;
-        slow = slow.next;
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        List<ListNode> list = new ArrayList<>();
+        int len = 0;
+        while(head != null) {
+            list.add(head);
+            head = head.next;
+            len++;
+        }
+        return buildTree(list, 0, len-1);
     }
-    TreeNode thead = new TreeNode(slow.val);
-    thead.left = toBST(head,slow);
-    thead.right = toBST(slow.next,tail);
-    return thead;
-}
+    TreeNode buildTree(List<ListNode> list, int start, int end){
+    if(start > end) return null;
+    int mid =(start+end)/2; 
+    TreeNode root = new TreeNode(list.get(mid).val);
+    root.left = buildTree(list, start, mid-1);
+    root.right = buildTree(list, mid+1, end);
+    return root;
+    }
 }
